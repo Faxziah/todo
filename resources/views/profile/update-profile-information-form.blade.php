@@ -81,6 +81,23 @@
                 @endif
             @endif
         </div>
+
+        <div class="col-span-6 sm:col-span-4">
+            <x-label value="{{ __('Status') }}" />
+
+            <label>
+                <input type="radio" name="status" value="private" wire:model="state.status" required autocomplete="status" />
+                Private
+            </label>
+
+            <label>
+                <input type="radio" name="status" value="public" wire:model="state.status" required autocomplete="status" />
+                Public
+            </label>
+
+            <x-input-error for="status" class="mt-2" />
+        </div>
+
     </x-slot>
 
     <x-slot name="actions">
