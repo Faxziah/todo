@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Livewire\TodoList\Create;
 use App\Livewire\TodoList\Edit;
 use App\Livewire\TodoList\Index;
 use App\Models\TodoList;
@@ -31,7 +32,8 @@ class TodoListController extends Controller
      */
     public function create()
     {
-        return view("todo-lists.create");
+        return view('todo-lists.create')
+            ->with('livewireComponent', Create::class);
     }
 
     /**
@@ -76,6 +78,16 @@ class TodoListController extends Controller
      */
     public function destroy(string $id)
     {
-        return "Удаляем пост с id $id";
+        TodoList::destroy($id);
+
+        $userId = Auth::id();
+
+        $data['todoLists'] = TodoList::where('user_id', $userId)
+            ->orderBy("updated_at", "desc")
+            ->get();
+
+        return view('todo-lists.index')
+            ->with('livewireComponent', Index::class)
+            ->with($data);
     }
 }

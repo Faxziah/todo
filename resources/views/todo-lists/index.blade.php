@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <div><a href="{{ route('todo.create') }}">Create new Todo list</a></div>
+
     @livewire($livewireComponent, ['todoLists' => $todoLists])
 
 </x-app-layout>

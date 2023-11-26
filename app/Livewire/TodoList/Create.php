@@ -2,37 +2,41 @@
 
 namespace App\Livewire\TodoList;
 
-use Livewire\Component;
+use App\Models\TodoList;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
 
-class Edit extends Component
+class Create extends Component
 {
-    public $todoList;
-
     public array $state = [
         'title' => '',
         'tasks' => [],
         'status' => '',
     ];
 
-    public function updateTodoList()
+    public function createTodoList()
     {
         Validator::make($this->state, [
             'title' => ['required', 'string', 'max:255'],
             'status' => ['required', 'string', 'in:private,public'],
         ])->validateWithBag('updateTodoList');
 
-        $this->todoList->forceFill([
-            'title' => $this->state['title'],
-            'status' => $this->state['status'],
-        ])->save();
+        $userId = Auth::id();
+
+        $todoList = new TodoList();
+        $todoList->title = $this->state['title'];
+        $todoList->status = $this->state['status'];
+        $todoList->user_id = $userId;
 
         $this->dispatch('saved');
         $this->reset();
+
+        return true;
     }
 
     public function render()
     {
-        return view('livewire.todo-list.edit');
+        return view('livewire.todo-list.create');
     }
 }
