@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todo_tasks', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->bigInteger('todo_list_id')->unsigned()->index();
-            $table->timestamps();
+        Schema::table('todo_tasks', function (Blueprint $table) {
+            $table->foreign('todo_list_id')
+                ->references('id')
+                ->on('todo_lists')
+                ->onDelete('cascade');
         });
     }
 
@@ -24,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todo_tasks');
+        Schema::table('todo_tasks', function (Blueprint $table) {
+            $table->dropForeign(['todo_list_id']);
+        });
     }
 };

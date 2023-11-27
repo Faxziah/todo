@@ -8,10 +8,18 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4 mb-4">
-                <x-label for="task" value="{{ __('Task') }}"/>
-                <x-input id="task" type="text" class="mt-1 block w-full" wire:model="state.tasks.0" required autocomplete="task"/>
+                <x-label for="task" value="{{ __('Tasks') }}"/>
+
+                @foreach ($state['todoTasks'] as $index => $task)
+                    <x-input id="task" type="text" class="mt-1 block w-full" wire:model="state.todoTasks.{{ $index }}.title" required autocomplete="task"/>
+                    <button wire:click="removeTask({{ $index }})" type="button">{{ __('Remove') }}</button>
+                @endforeach
                 <x-input-error for="task" class="mt-2"/>
             </div>
+
+            <x-button wire:click="addTask" type="button">
+                {{ __('Add Task') }}
+            </x-button>
 
             <div class="col-span-6 sm:col-span-4 flex flex-col">
                 <x-label for="status" value="{{ __('Status') }}"/>

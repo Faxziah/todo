@@ -18,7 +18,7 @@ class TodoTaskFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(rand(2, 10)),
-            'list_id' => $this->faker->numberBetween(1, 50),
+            'todo_list_id' => $this->faker->numberBetween(1, 50),
         ];
     }
 }

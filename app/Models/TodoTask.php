@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TodoTask extends Model
 {
     use HasFactory;
+
+    public function todoList()
+    {
+        return $this->belongsTo(TodoList::class);
+    }
 }

@@ -19,7 +19,8 @@ class TodoListController extends Controller
         $userId = Auth::id();
 
         $data['todoLists'] = TodoList::where('user_id', $userId)
-            ->orderBy("updated_at", "desc")
+            ->with('todoTasks')
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return view('todo-lists.index')
@@ -57,7 +58,7 @@ class TodoListController extends Controller
      */
     public function edit(string $id)
     {
-        $data['todoList'] = TodoList::find($id);
+        $data['todoList'] = TodoList::with('todoTasks')->find($id);
 
         return view('todo-lists.edit')
             ->with('livewireComponent', Edit::class)
@@ -83,7 +84,7 @@ class TodoListController extends Controller
         $userId = Auth::id();
 
         $data['todoLists'] = TodoList::where('user_id', $userId)
-            ->orderBy("updated_at", "desc")
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return view('todo-lists.index')
